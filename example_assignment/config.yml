@@ -1,0 +1,20 @@
+# Need to install node and npm with brew install node
+# Need to run `npm install -g diff2html-cli` to do pretty diff2html
+
+extract_from_zip : True
+generate_diffs : True
+# This section needs to be updated for each problem set
+path_to_shiny_dir: "" # if set as empty string, we will use `getwd()`
+problem_set: "example_assignment"
+gradebook_zip_file: "gradebook_zip.zip"
+answer_write_up_file : "example_assignment_solution_writeup.Rmd"
+regex_pattern : "example_assignment_([^_]*)_"
+
+# enter the rubric information here. Expects structure of q1, q2a, q2b, etc
+rubric:
+    - q1
+    - q2
+    - q3
+    - q4
+    
+out_of : 25
