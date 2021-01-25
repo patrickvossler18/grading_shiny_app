@@ -1,7 +1,3 @@
----
-output:
-  pdf_document: default
----
 # Shiny app for grading problem sets
 
 There are a few steps that need to be done before starting the shiny app. I've included an example of the proper structure to use in the PS8 folder.
