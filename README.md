@@ -2,29 +2,29 @@
 
 ![Screenshot of the grading app](img/grading_app_screenshot.png)
 
-There are a few steps that need to be done before starting the shiny app. I've included an example of the proper structure to use in the PS8 folder.
+There are a few steps that need to be done before starting the shiny app. I've included an example of the proper structure to use in the example_assignment folder.
 
 ## Download submission files from blackboard
 * On blackboard go to Grade Center -> Full Grade Center. Right click on the problem set and select "Assignment File Download".
 
-* On the "Download Assignment" Page I suggest pressing the show all button at the bottom of the screen, then selecting all of the students and clicking submit. Then save the submissions zip folder which we will refer to as the gradebook zip file because the filename is in the form: "gradebook_20211_buad_312_14924_PS1_2021-01-23-13-39-23.zip".
+* On the "Download Assignment" Page I suggest pressing the show all button at the bottom of the screen, then selecting all of the students and clicking submit. Then save the submissions zip folder which we will refer to as the gradebook zip file because the filename is in the form: "gradebook_course_info_assignment_name_date_downloaded.zip".
 
 
 ## Make config.yml and folder structure for the particular problem set
 The shiny app assumes that within the `path_to_shiny_dir` folder specified in your config.yml file you have a subfolder with the name `problem_set` specified in your config file. I suggest the following workflow:
 
-1. Within the folder that contains the `ps_grading_app.R` and `prep_data.R` files create a folder of the form `PS{PS Number here}` (You're welcome to the shared dropbox folder if you'd like.).
+1. Within the folder that contains the `ps_grading_app.R` and `prep_data.R` files create a folder of the form `PS{PS Number here}`.
 2. Within the `PS{PS Number here}` folder, create the config.yml with the necessary paths. 
 
 **config.yml explanation** 
 * `extract_from_zip`, `generate_diffs`: Booleans for whether or not to recursively extract the assignments from the gradebook zip file and generate the html diff files, respectively. This only needs to be done once so you can set these to False after you've started the app for the first time.
     * NOTE: For the html diffs you need to have node installed (this can be done with `brew install node` on Mac). Once you've done that, we also need the diff2html library which you can install with `npm install -g diff2html-cli`.
 
-* `path_to_shiny_dir`: Path to the folder containing `ps_grading_app.R` and `prep_data.R`. For me this is: "/Users/patrick/Dropbox/Spring 2021/grading_shiny_app_v2".
+* `path_to_shiny_dir`: Path to the folder containing `ps_grading_app.R` and `prep_data.R`. For me this is: "~/Dropbox/Spring 2021/grading_shiny_app_v2".
 * `problem_set`: Name used for the problem set subfolder, e.g. "PS8"
-* `gradebook_zip_file`: "gradebook_20201_buad_312_mm-jb_Problem20Set208_2020-04-26-21-10-24.zip"
+* `gradebook_zip_file`: "gradebook_course_info_assignment_name_date_downloaded.zip"
 * `answer_write_up_file` : This is the Rmarkdown file for the solution write up that we will give you. If we don't have a solution write up ready then a blank .Rmd will work but the html diffs won't be very useful. Note, this should be in the `problem_set` subfolder.
-* `regex_pattern` : This is used when we extract the student submissions. It is based on the assignment name in the gradebook on blackboard. For example, for an assignment with the name "Problem Set 8", we'd use the regular expression "Problem Set 8_([^_]*)_". For problem set 1 the name on blackboard was "PS1" so we'd need to change the regular expression to be "PS1_([^_]*)_".
+* `regex_pattern` : This is used when we extract the student submissions to get the student ids. It is based on the assignment name in the gradebook on blackboard. For example, for an assignment with the name "Problem Set 8", we'd use the regular expression "Problem Set 8_([^_]*)_". For problem set 1 the name on blackboard was "PS1" so we'd need to change the regular expression to be "PS1_([^_]*)_".
 
 * `rubric` : The rubric information expects structure of q1, q2a, q2b, etc
 
