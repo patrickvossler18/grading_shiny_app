@@ -9,7 +9,7 @@ library(yaml)
 library(fs)
 
 
-make_rubric_df <- function(usc_id, num_rows, out_of, question_list) {
+make_rubric_df <- function(student_id, num_rows, out_of, question_list) {
     as_tibble(matrix(
         rep(0, num_rows * length(question_list)),
         nrow = num_rows,
@@ -17,13 +17,13 @@ make_rubric_df <- function(usc_id, num_rows, out_of, question_list) {
         dimnames = list(NULL, question_list)
     )) %>%
         mutate(
-            usc_id = usc_id,
+            student_id = student_id,
             total = rep(NA, num_rows),
             out_of = rep(out_of, num_rows),
             grade = rep(NA, num_rows),
             comment = rep("", num_rows),
         ) %>%
-        select(usc_id, everything())
+        select(student_id, everything())
 }
 
 # POINT TO CONFIG FILE
@@ -67,7 +67,7 @@ if (!file.exists(export_file)) {
     
     submissions <-
         submissions %>% mutate(
-            usc_id = str_match(string = file, pattern = config$regex_pattern)[, 2],
+            student_id = str_match(string = file, pattern = config$regex_pattern)[, 2],
             grade = NA,
             comment = ""
         )
@@ -79,8 +79,8 @@ if (!file.exists(export_file)) {
 if (config$extract_from_zip) {
     # extract all of the submissions into folders
     for (i in 1:nrow(submissions)) {
-        usc_id <- submissions[i,]$usc_id
-        path <- path(gradebook_folder_path, usc_id)
+        student_id <- submissions[i,]$student_id
+        path <- path(gradebook_folder_path, student_id)
         # make the folder
         if (!dir.exists(path)) {
             dir.create(path)
@@ -98,7 +98,7 @@ if (config$generate_diffs) {
     print("generating html diffs")
     
     submissions$html_diff <-
-        sapply(glue("{gradebook_folder_path}/{submissions %>% pull(usc_id)}") , function(x) {
+        sapply(glue("{gradebook_folder_path}/{submissions %>% pull(student_id)}") , function(x) {
             rmd_file <- list.files(x, "*.Rmd|RMD|rmd", recursive = T)[1]
             if (length(rmd_file) > 0) {
                 submitted_file <-
@@ -139,14 +139,14 @@ if (file.exists(path(
             ),
             col_types = cols(
                 .default = "d",
-                usc_id = "c",
+                student_id = "c",
                 comment = "c"
             )
         )
     
 } else{
     rubric <-
-        make_rubric_df(submissions$usc_id,
+        make_rubric_df(submissions$student_id,
                        nrow(submissions),
                        config$out_of,
                        config$rubric)

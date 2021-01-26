@@ -15,13 +15,13 @@ export_file = "PS8_grades_export - Final.csv"
 export_file_path = glue("~/Dropbox/grading_shiny_app/{PS_name}")
 
 grades <- read_csv(path(export_file_path,export_file)) %>%
-    dplyr::distinct(usc_id,.keep_all=T) %>%
+    dplyr::distinct(student_id,.keep_all=T) %>%
     mutate(comment = ifelse(comment == "1",str_remove_all(comment,"1"),comment)) %>% 
     mutate(comment = ifelse(is.na(comment),"",comment))
 
 
 gradebook_w_grades <- gradebook %>% 
-    left_join(y=grades, by = c("Username" = "usc_id")) %>%
+    left_join(y=grades, by = c("Username" = "student_id")) %>%
     mutate(!!BB_PS_name := ifelse(!is.na(grade),round(grade * 10,2),""), # NOTE: This might be redundant for assignments already only out of 10 points
            !!BB_comment_name := ifelse(is.na(comment),"", comment)) %>%
     select(-one_of(colnames(grades)))

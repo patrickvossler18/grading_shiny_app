@@ -22,8 +22,8 @@ ui <- shinyUI(fluidPage(
             selectInput(
                 "studentSelect",
                 label = "Select Student:",
-                choices = submissions$usc_id,
-                selected = submissions$usc_id[1]
+                choices = submissions$student_id,
+                selected = submissions$student_id[1]
             ),
             br(),
             
@@ -126,12 +126,12 @@ server <- shinyServer(function(input, output) {
     
     observeEvent(input$studentSelect,{
         output$showfile <- renderUI({
-            usc_id <- isolate(input$studentSelect)
-            path <- glue("{gradebook_folder_path}/{usc_id}")
+            student_id <- isolate(input$studentSelect)
+            path <- glue("{gradebook_folder_path}/{student_id}")
             html_file <-
                 list.files(path, "*html_diff.html", recursive = T)
             tags$iframe(
-                src = glue("data/{usc_id}/{html_file}"),
+                src = glue("data/{student_id}/{html_file}"),
                 width = "100%",
                 height = "100%",
                 id = "html_diff",
@@ -140,8 +140,8 @@ server <- shinyServer(function(input, output) {
         })
         
         output$html_file <- renderUI({
-            usc_id <- isolate(input$studentSelect)
-            path <- glue("{gradebook_folder_path}/{usc_id}")
+            student_id <- isolate(input$studentSelect)
+            path <- glue("{gradebook_folder_path}/{student_id}")
             html_file <- list.files(path, "*.html", recursive = T)
             html_file <-
                 html_file[!grepl("_html_diff.html", html_file)]
@@ -151,12 +151,12 @@ server <- shinyServer(function(input, output) {
     })
     
     output$showfile <- renderUI({
-            usc_id <- isolate(input$studentSelect)
-            path <- glue("{gradebook_folder_path}/{usc_id}")
+            student_id <- isolate(input$studentSelect)
+            path <- glue("{gradebook_folder_path}/{student_id}")
             html_file <-
                 list.files(path, "*html_diff.html", recursive = T)
             tags$iframe(
-                src = glue("data/{usc_id}/{html_file}"),
+                src = glue("data/{student_id}/{html_file}"),
                 width = "100%",
                 height = "100%",
                 id = "html_diff",
@@ -165,8 +165,8 @@ server <- shinyServer(function(input, output) {
     })
     
     output$html_file <- renderUI({
-        usc_id <- isolate(input$studentSelect)
-        path <- glue("{gradebook_folder_path}/{usc_id}")
+        student_id <- isolate(input$studentSelect)
+        path <- glue("{gradebook_folder_path}/{student_id}")
         html_file <- list.files(path, "*.html", recursive = T)
         html_file <-
             html_file[!grepl("_html_diff.html", html_file)]

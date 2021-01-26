@@ -1,5 +1,7 @@
 # Shiny app for grading problem sets
 
+![Screenshot of the grading app](img/grading_app_screenshot.png)
+
 There are a few steps that need to be done before starting the shiny app. I've included an example of the proper structure to use in the PS8 folder.
 
 ## Download submission files from blackboard
